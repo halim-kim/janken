@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="css/sample.css">
+    <title>じゃんけん</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>3回勝った方が勝ち！<br>じゃんけん勝負！</h1>
+    </header>
+
+    <main>
+        <ul>
+            <li id="rock" style="text-align: center;">グー</li>
+            <li id="scissors" style="text-align: center;">チョキ</li>
+            <li id="paper" style="text-align: center;">パー</li>
+        </ul>
+        <div>あなたが選んだ手は？「<span id="your_hands">なに？</span>」</div>
+
+        <div>コンピュータの出した手は？「<span id="pc_hands">なに？</span>」</div>
+        <div id="judgement"></div>
+        <div id="stats"></div>
+    </main>
+
+    <footer></footer>
+        <div id="result" style="text-align: center;"></div>
+    <script>
+
+        let gameCount = 0; 
+        let userWins = 0; 
+        let computerWins = 0; 
+
+        const hands = ["グー", "チョキ", "パー"];
+        $("#rock, #scissors, #paper").on("click", function(){
+            const your_hand = $(this).text();
+            $("#result").html('');
+
+            $("#your_hands").text(your_hand);
+            const pc_hand = hands[Math.floor(Math.random() * hands.length)];
+            $("#pc_hands").text(pc_hand);
+        });
+// 出す手の選択       
+
+    function determineWinner(user, computer) {
+        if (user === computer) {
+            return "引き分け";
+        } else if ((user === "グー" && computer === "チョキ") ||
+                   (user === "チョキ" && computer === "パー") ||
+                   (user === "パー" && computer === "グー")) {
+            return "勝ち";
+        } else {
+            return "負け";
+        }
+    }
+// 勝ち負けの判断
+
+
+    $("#rock, #scissors, #paper").on("click", function(){
+        const judgement = determineWinner($("#your_hands").text(), $("#pc_hands").text());
+        $("#judgement").text(judgement);
+        if (judgement === "勝ち") {
+            $("#judgement").css("color", "red");
+        } else if (judgement === "負け" || judgement === "引き分け") {
+            $("#judgement").css("color", "blue");
+        }
+
+        gameCount++;
+
+        const result = $("#judgement").text();
+        if (result === "勝ち") {
+            userWins++;
+        } else if (result === "負け") {
+            computerWins++;
+        }
+
+        $("#stats").text(`ゲーム数: ${gameCount}, あなたの勝ち数: ${userWins}, パソコンの勝ち数: ${computerWins}`);
+
+        if (userWins >= 3 || computerWins >= 3) {
+            if (userWins >= 3) {
+                setTimeout(() => alert("あなたの勝ち!"), 100);
+                $("#result").html('<img src="img/win.png" alt="Win">');
+            } else if (computerWins >= 3) {
+                setTimeout(() => alert("ダメじゃん"), 100);
+                
+                $("#result").html('<img src="img/lose.jpeg" alt="Lose">');
+            }
+            userWins = 0; 
+            computerWins = 0; 
+            gameCount = 0; 
+        }
+    });
+// 3回勝負
+
+
+
+    </script>
+</body>
+
+</html>

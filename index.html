@@ -84,10 +84,10 @@
         if (userWins >= 3 || computerWins >= 3) {
             if (userWins >= 3) {
                 $("#result").html('<img src="img/win.png" alt="Win">');
-                setTimeout(() => alert("あなたの勝ち!"), 100);
+                setTimeout(() => alert("あなたの勝ち!"), 300);
             } else if (computerWins >= 3) {
                 $("#result").html('<img src="img/lose.jpeg" alt="Lose">');
-                setTimeout(() => alert("ダメじゃん"), 100);
+                setTimeout(() => alert("ダメじゃん"), 300);
             }
             userWins = 0; 
             computerWins = 0; 
